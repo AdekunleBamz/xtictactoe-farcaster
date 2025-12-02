@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import AppKitProviderWrapper from '@/components/AppKitProviderWrapper';
+import FarcasterProvider from '@/components/FarcasterProvider';
 
 export const metadata: Metadata = {
   title: 'xTicTacToe - Play for USDC on Base',
@@ -44,9 +45,11 @@ export default function RootLayout({
         <div className="decorative-x" style={{ fontSize: '120px', bottom: '15%', right: '20%', opacity: 0.07 }}>X</div>
         <div className="decorative-o" style={{ fontSize: '140px', top: '30%', left: '5%', opacity: 0.05 }}>O</div>
         
-        <AppKitProviderWrapper>
-          {children}
-        </AppKitProviderWrapper>
+        <FarcasterProvider>
+          <AppKitProviderWrapper>
+            {children}
+          </AppKitProviderWrapper>
+        </FarcasterProvider>
       </body>
     </html>
   );
