@@ -80,6 +80,15 @@ body::after {
   animation: float4 22s ease-in-out infinite;
 }
 
+
+.decorative-x:nth-of-type(2) {
+  animation: float2 20s ease-in-out infinite;
+}
+
+.decorative-o:nth-of-type(2) {
+  animation: float1 25s ease-in-out infinite;
+}
+
 @keyframes float1 {
   0%, 100% { transform: rotate(-15deg) translateY(0px); }
   50% { transform: rotate(-15deg) translateY(-30px); }

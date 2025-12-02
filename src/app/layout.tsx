@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'xTicTacToe - Play for USDC on Base',
   description: 'Play xTicTacToe with AI or compete for USDC prizes on Base blockchain',
   icons: {
-    icon: '/logo.png',
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
     apple: '/logo.png',
   },
   openGraph: {
@@ -39,8 +39,10 @@ export default function RootLayout({
       </head>
       <body>
         {/* Decorative floating X and O elements */}
-        <div className="decorative-x" style={{ fontSize: '150px' }}>X</div>
-        <div className="decorative-o" style={{ fontSize: '150px' }}>O</div>
+        <div className="decorative-x" style={{ fontSize: '150px', top: '10%', left: '15%', opacity: 0.08 }}>X</div>
+        <div className="decorative-o" style={{ fontSize: '180px', top: '60%', right: '10%', opacity: 0.06 }}>O</div>
+        <div className="decorative-x" style={{ fontSize: '120px', bottom: '15%', right: '20%', opacity: 0.07 }}>X</div>
+        <div className="decorative-o" style={{ fontSize: '140px', top: '30%', left: '5%', opacity: 0.05 }}>O</div>
         
         <AppKitProviderWrapper>
           {children}
