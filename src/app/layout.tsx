@@ -19,13 +19,10 @@ export const metadata: Metadata = {
   },
   other: {
     'fc:frame': 'vNext',
-    'fc:frame:image': 'https://xtictactoe-farcaster.vercel.app/frame-image.svg',
-    'fc:frame:button:1': '🎮 Play Free AI Mode',
-    'fc:frame:button:2': '💰 Play PvP for USDC',
+    'fc:frame:image': 'https://xtictactoe-drab.vercel.app/frame-image.svg',
+    'fc:frame:button:1': '🎮 Play Now',
     'fc:frame:button:1:action': 'link',
-    'fc:frame:button:1:target': 'https://xtictactoe-farcaster.vercel.app',
-    'fc:frame:button:2:action': 'link',
-    'fc:frame:button:2:target': 'https://xtictactoe-farcaster.vercel.app',
+    'fc:frame:button:1:target': 'https://xtictactoe-drab.vercel.app',
   },
 };
 
