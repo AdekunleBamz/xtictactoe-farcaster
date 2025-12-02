@@ -1,15 +1,36 @@
 {
   "accountAssociation": {
-    "header": "eyJmaWQiOjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHhiM0EyNWE0NzdDOTdGOEFlMmQ5QzUyQjdhY2ZiZTJDOEUyNTlkNWQ5In0",
-    "payload": "eyJkb21haW4iOiJ4dGljdGFjdG9lLWZhcmNhc3Rlci52ZXJjZWwuYXBwIn0",
-    "signature": "MHhhNDFmZDU3OTU3ZDNhODU5NjNhZjBmYzZiZmU3MjFkNGY3Mjg2MDM4NzZjMWYzNGM4YjYyMTJhYjI5ZGUzYmVlNGJiMzZmOWUwOWM1Yjk0NGVjYjU5MmJiZGQyMmNjMjUzZjU3MmE0ZWE1ZTMxOGZkYjM3ZjA2ZDY2YzU3MWU5YjFi"
+    "header": "eyJmaWQiOjQ3Mjc4MCwidHlwZSI6ImF1dGgiLCJrZXkiOiIweDJEYTg1ODFEZDhiQjY2NjZDQTZCZEQ1RmFjNTdkZTVBQkRGNTE1QzYifQ",
+    "payload": "eyJkb21haW4iOiJodHRwczovL3h0aWN0YWN0b2UtZHJhYi52ZXJjZWwuYXBwLyJ9",
+    "signature": "q5+ecoUrp/3+WhAoSbhVpEx49zEeAJm+4BNpj+E+tC9F9qJBf8ijVR2ad9KrCNomxIXIKgjwc3kqpQd061K1KRs="
   },
   "frame": {
     "version": "next",
     "name": "xTicTacToe",
     "iconUrl": "https://xtictactoe-farcaster.vercel.app/logo.png",
+    "homeUrl": "https://xtictactoe-farcaster.vercel.app",
+    "imageUrl": "https://xtictactoe-farcaster.vercel.app/frame-image.svg",
+    "buttonTitle": "Open mini app",
     "splashImageUrl": "https://xtictactoe-farcaster.vercel.app/frame-image.svg",
     "splashBackgroundColor": "#d8c0a0",
-    "homeUrl": "https://xtictactoe-farcaster.vercel.app"
+    "webhookUrl": "https://xtictactoe-farcaster.vercel.app/api/frame",
+    "subtitle": "Play TicTacToe for USDC prizes",
+    "description": "Play TicTacToe with AI for free or compete against real players for USDC prizes on Base blockchain. Win $1.70 USDC in PvP mode!",
+    "primaryCategory": "games",
+    "screenshotUrls": [
+      "https://xtictactoe-farcaster.vercel.app/frame-image.svg"
+    ],
+    "heroImageUrl": "https://xtictactoe-farcaster.vercel.app/frame-image.svg",
+    "tags": [
+      "gaming",
+      "tictactoe",
+      "crypto",
+      "pvp"
+    ],
+    "tagline": "Win USDC Playing TicTacToe",
+    "ogTitle": "xTicTacToe - Play for USDC",
+    "ogDescription": "Play TicTacToe with AI for free or compete for 1.70 USDC prizes on Base blockchain",
+    "ogImageUrl": "https://xtictactoe-farcaster.vercel.app/frame-image.svg",
+    "castShareUrl": "https://warpcast.com/~/compose?text=Play+xTicTacToe+for+USDC+prizes!&embeds[]=https://xtictactoe-farcaster.vercel.app"
   }
 }
