@@ -19,21 +19,21 @@ export default function GameBoard({ mode, difficulty, onBack, onWin }: GameBoard
   const [isDraw, setIsDraw] = useState(false);
 
   const handleMove = useCallback((index: number) => {
-    if (board[index] || winner || isDraw) return;
-    if (mode === 'ai' && currentPlayer === 'O') return;
-
-    const newBoard = [...board];
-    newBoard[index] = currentPlayer;
-    setBoard(newBoard);
-    soundManager.playMove();
-    vibrateMove();
-    setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
-  }, [board, winner, isDraw, mode, currentPlayer]);
+    setBoard(prevBoard => {
+      if (prevBoard[index]) return prevBoard;
+      const newBoard = [...prevBoard];
+      newBoard[index] = currentPlayer;
+      soundManager.playMove();
+      vibrateMove();
+      return newBoard;
+    });
+    setCurrentPlayer(prev => prev === 'X' ? 'O' : 'X');
+  }, [currentPlayer]);
 
   useEffect(() => {
     if (mode === 'ai' && currentPlayer === 'O' && !winner && !isDraw) {
       const timer = setTimeout(() => {
-        const move = getAIMove([...board], difficulty);
+        const move = getAIMove(board, difficulty);
         if (move !== -1) {
           handleMove(move);
         }
