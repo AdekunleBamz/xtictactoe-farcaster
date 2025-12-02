@@ -23,17 +23,67 @@ export function useGameMoves({ gameId, myAddress, mySymbol, enabled }: UseGameMo
   const [lastMoveTimestamp, setLastMoveTimestamp] = useState<number>(0);
 
   const gameIdStr = gameId.toString();
+  const storageKey = `game_${gameIdStr}_moves`;
+
+  // Load moves from localStorage on mount
+  useEffect(() => {
+    if (!enabled) return;
+    
+    try {
+      const cached = localStorage.getItem(storageKey);
+      if (cached) {
+        const moves: GameMove[] = JSON.parse(cached);
+        if (moves.length > 0) {
+          const newBoard: Board = Array(9).fill(null);
+          moves.forEach(move => {
+            if (move.position >= 0 && move.position <= 8) {
+              newBoard[move.position] = move.player;
+            }
+          });
+          setBoard(newBoard);
+          setCurrentPlayer(moves.length % 2 === 0 ? 'X' : 'O');
+          setLastMoveCount(moves.length);
+          setLastMoveTimestamp(moves[moves.length - 1].timestamp);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading cached moves:', error);
+    }
+  }, [enabled, gameIdStr, storageKey]);
 
   // Fetch moves from API
   const fetchMoves = useCallback(async () => {
     if (!enabled) return;
 
     try {
-      const response = await fetch(`/api/game/${gameIdStr}/moves`);
+      // Try to get cached moves for recovery
+      let url = `/api/game/${gameIdStr}/moves`;
+      const cached = localStorage.getItem(storageKey);
+      
+      // If we have cached data, send it for potential server recovery
+      if (cached) {
+        try {
+          const cachedMoves = JSON.parse(cached);
+          if (cachedMoves.length > 0) {
+            url += `?recovery=${encodeURIComponent(cached)}`;
+          }
+        } catch (e) {
+          // Ignore parse errors
+        }
+      }
+      
+      const response = await fetch(url);
       const data = await response.json();
 
       if (data.success && data.moves) {
         const moves: GameMove[] = data.moves;
+        
+        // Save to localStorage for persistence across refreshes
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(moves));
+        } catch (error) {
+          console.error('Error caching moves:', error);
+        }
         
         // Only update if move count changed
         if (moves.length !== lastMoveCount) {
@@ -59,7 +109,7 @@ export function useGameMoves({ gameId, myAddress, mySymbol, enabled }: UseGameMo
     } catch (error) {
       console.error('Error fetching moves:', error);
     }
-  }, [enabled, gameIdStr, lastMoveCount]);
+  }, [enabled, gameIdStr, lastMoveCount, storageKey]);
 
   // Poll for updates every 2 seconds
   useEffect(() => {

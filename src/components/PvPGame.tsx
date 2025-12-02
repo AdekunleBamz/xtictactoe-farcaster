@@ -104,13 +104,14 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
 
   // Turn timer - 2 minutes per turn
   useEffect(() => {
-    if (!gameStartTime || isWaitingForPlayer2 || winner || isDraw) {
+    if (isWaitingForPlayer2 || winner || isDraw) {
       setTurnTimeLeft(120);
       return;
     }
 
     // Calculate time left for current turn
-    const turnStartTime = lastMoveTimestamp || Date.now();
+    // Use lastMoveTimestamp if available, otherwise use gameStartTime for first move
+    const turnStartTime = lastMoveTimestamp || gameStartTime || Date.now();
     const timeElapsed = Math.floor((Date.now() - turnStartTime) / 1000);
     const timeLeft = Math.max(0, 120 - timeElapsed);
     

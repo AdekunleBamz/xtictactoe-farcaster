@@ -1,7 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// In-memory storage for game moves (in production, use Redis or database)
-const gameMovesStore = new Map<string, GameMove[]>();
+// Use global variable to persist across serverless function invocations
+// This provides better persistence than a regular Map in serverless environments
+declare global {
+  var gameMovesStore: Map<string, GameMove[]> | undefined;
+}
+
+// In-memory storage for game moves with global persistence
+const gameMovesStore = global.gameMovesStore || new Map<string, GameMove[]>();
+
+if (!global.gameMovesStore) {
+  global.gameMovesStore = gameMovesStore;
+}
 
 interface GameMove {
   position: number;
@@ -18,6 +28,29 @@ export async function GET(
   try {
     const gameId = params.gameId;
     const moves = gameMovesStore.get(gameId) || [];
+    
+    // Check if client is providing cached moves for recovery
+    const url = new URL(request.url);
+    const recoveryData = url.searchParams.get('recovery');
+    
+    // If server lost state and client has cached data, restore it
+    if (moves.length === 0 && recoveryData) {
+      try {
+        const cachedMoves: GameMove[] = JSON.parse(decodeURIComponent(recoveryData));
+        if (Array.isArray(cachedMoves) && cachedMoves.length > 0) {
+          gameMovesStore.set(gameId, cachedMoves);
+          console.log(`Recovered ${cachedMoves.length} moves for game ${gameId} from client cache`);
+          return NextResponse.json({ 
+            success: true, 
+            moves: cachedMoves,
+            count: cachedMoves.length,
+            recovered: true
+          });
+        }
+      } catch (error) {
+        console.error('Error recovering moves:', error);
+      }
+    }
     
     return NextResponse.json({ 
       success: true, 
