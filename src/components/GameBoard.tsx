@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Player, Board, checkWinner, checkDraw, getAIMove, AIDifficulty } from '@/utils/game';
 import { soundManager, vibrateMove, vibrateWin, vibrateLose } from '@/utils/sound';
 
@@ -18,6 +18,18 @@ export default function GameBoard({ mode, difficulty, onBack, onWin }: GameBoard
   const [winningLine, setWinningLine] = useState<number[] | null>(null);
   const [isDraw, setIsDraw] = useState(false);
 
+  const handleMove = useCallback((index: number) => {
+    if (board[index] || winner || isDraw) return;
+    if (mode === 'ai' && currentPlayer === 'O') return;
+
+    const newBoard = [...board];
+    newBoard[index] = currentPlayer;
+    setBoard(newBoard);
+    soundManager.playMove();
+    vibrateMove();
+    setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
+  }, [board, winner, isDraw, mode, currentPlayer]);
+
   useEffect(() => {
     if (mode === 'ai' && currentPlayer === 'O' && !winner && !isDraw) {
       const timer = setTimeout(() => {
@@ -28,7 +40,7 @@ export default function GameBoard({ mode, difficulty, onBack, onWin }: GameBoard
       }, 50);
       return () => clearTimeout(timer);
     }
-  }, [currentPlayer, mode, winner, isDraw, board, difficulty]);
+  }, [currentPlayer, mode, winner, isDraw, board, difficulty, handleMove]);
 
   useEffect(() => {
     const result = checkWinner(board);
@@ -48,18 +60,6 @@ export default function GameBoard({ mode, difficulty, onBack, onWin }: GameBoard
       soundManager.playDraw();
     }
   }, [board, onWin]);
-
-  const handleMove = (index: number) => {
-    if (board[index] || winner || isDraw) return;
-    if (mode === 'ai' && currentPlayer === 'O') return;
-
-    const newBoard = [...board];
-    newBoard[index] = currentPlayer;
-    setBoard(newBoard);
-    soundManager.playMove();
-    vibrateMove();
-    setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
-  };
 
   const handleReset = () => {
     setBoard(Array(9).fill(null));
