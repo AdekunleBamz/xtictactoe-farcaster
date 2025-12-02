@@ -124,9 +124,6 @@ export default function Leaderboard({ onBack }: LeaderboardProps) {
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-carton-900">{entry.username}</span>
-                      {isCurrentUser && (
-                        <span className="bg-carton-700 text-white text-xs px-2 py-1 rounded">YOU</span>
-                      )}
                     </div>
                     <div className="text-sm text-carton-700">{entry.address}</div>
                   </div>
