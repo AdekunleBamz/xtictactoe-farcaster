@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "name": "xTicTacToe",
+  "iconUrl": "https://your-domain.com/icon.png",
+  "homeUrl": "https://your-domain.com",
+  "imageUrl": "https://your-domain.com/preview.png",
+  "buttonTitle": "Play xTicTacToe",
+  "splashImageUrl": "https://your-domain.com/splash.png",
+  "splashBackgroundColor": "#d8c0a0",
+  "webhookUrl": "https://your-domain.com/api/webhook"
+}
