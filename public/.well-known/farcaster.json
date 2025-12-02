@@ -7,20 +7,20 @@
   "frame": {
     "version": "next",
     "name": "xTicTacToe",
-    "iconUrl": "https://xtictactoe-farcaster.vercel.app/logo.png",
-    "homeUrl": "https://xtictactoe-farcaster.vercel.app",
-    "imageUrl": "https://xtictactoe-farcaster.vercel.app/frame-image.svg",
+    "iconUrl": "https://xtictactoe-drab.vercel.app/logo.png",
+    "homeUrl": "https://xtictactoe-drab.vercel.app",
+    "imageUrl": "https://xtictactoe-drab.vercel.app/frame-image.svg",
     "buttonTitle": "Open mini app",
-    "splashImageUrl": "https://xtictactoe-farcaster.vercel.app/frame-image.svg",
+    "splashImageUrl": "https://xtictactoe-drab.vercel.app/frame-image.svg",
     "splashBackgroundColor": "#d8c0a0",
-    "webhookUrl": "https://xtictactoe-farcaster.vercel.app/api/frame",
+    "webhookUrl": "https://xtictactoe-drab.vercel.app/api/frame",
     "subtitle": "Play TicTacToe for USDC prizes",
     "description": "Play TicTacToe with AI for free or compete against real players for USDC prizes on Base blockchain. Win $1.70 USDC in PvP mode!",
     "primaryCategory": "games",
     "screenshotUrls": [
-      "https://xtictactoe-farcaster.vercel.app/frame-image.svg"
+      "https://xtictactoe-drab.vercel.app/frame-image.svg"
     ],
-    "heroImageUrl": "https://xtictactoe-farcaster.vercel.app/frame-image.svg",
+    "heroImageUrl": "https://xtictactoe-drab.vercel.app/frame-image.svg",
     "tags": [
       "gaming",
       "tictactoe",
@@ -30,7 +30,7 @@
     "tagline": "Win USDC Playing TicTacToe",
     "ogTitle": "xTicTacToe - Play for USDC",
     "ogDescription": "Play TicTacToe with AI for free or compete for 1.70 USDC prizes on Base blockchain",
-    "ogImageUrl": "https://xtictactoe-farcaster.vercel.app/frame-image.svg",
-    "castShareUrl": "https://warpcast.com/~/compose?text=Play+xTicTacToe+for+USDC+prizes!&embeds[]=https://xtictactoe-farcaster.vercel.app"
+    "ogImageUrl": "https://xtictactoe-drab.vercel.app/frame-image.svg",
+    "castShareUrl": "https://warpcast.com/~/compose?text=Play+xTicTacToe+for+USDC+prizes!&embeds[]=https://xtictactoe-drab.vercel.app"
   }
 }
