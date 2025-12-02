@@ -76,9 +76,8 @@ export default function Leaderboard({ onBack }: LeaderboardProps) {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-carton-900">{entry.username}</span>
+                      <span className="font-bold text-carton-900">{entry.address.slice(0, 6)}...{entry.address.slice(-4)}</span>
                     </div>
-                    <div className="text-sm text-carton-700">{entry.address}</div>
                   </div>
                   <div className="text-right">
                     <div className="text-2xl font-bold text-carton-900">{entry.winRate}%</div>
