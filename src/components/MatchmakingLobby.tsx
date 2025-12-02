@@ -110,27 +110,21 @@ export default function MatchmakingLobby({ onBack, onGameStart }: MatchmakingLob
     if (!address) return;
     
     // Create game with address(0) as opponent (open lobby)
-    const result = await createGame('0x0000000000000000000000000000000000000000');
+    await createGame('0x0000000000000000000000000000000000000000');
     soundManager.playClick();
     vibrateClick();
+    setTimeout(() => setRefreshTrigger(prev => prev + 1), 2000);
     
-    if (result) {
-      setTimeout(() => setRefreshTrigger(prev => prev + 1), 2000);
-    }
   };
 
   const handleJoinGame = async (gameId: bigint) => {
     if (!address) return;
     
-    const result = await joinGame(gameId);
+    await joinGame(gameId);
     soundManager.playMatchFound();
     vibrateClick();
     
-    if (result) {
-      setTimeout(() => {
-        onGameStart(gameId);
-      }, 2000);
-    }
+    setTimeout(() => onGameStart(gameId), 2000);
   };
 
   return (
