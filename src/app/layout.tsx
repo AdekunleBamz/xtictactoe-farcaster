@@ -6,6 +6,7 @@ import FarcasterProvider from '@/components/FarcasterProvider';
 export const metadata: Metadata = {
   title: 'xTicTacToe - Play for USDC on Base',
   description: 'Play xTicTacToe with AI or compete for USDC prizes on Base blockchain',
+  manifest: '/.well-known/farcaster.json',
   icons: {
     icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
     apple: '/logo.png',
@@ -37,6 +38,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="manifest" href="/.well-known/farcaster.json" />
       </head>
       <body>
         {/* Decorative floating X and O elements */}
