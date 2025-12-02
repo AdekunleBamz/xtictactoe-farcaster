@@ -20,6 +20,7 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
   const [isDraw, setIsDraw] = useState(false);
   const [gameStartTime, setGameStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [turnTimeLeft, setTurnTimeLeft] = useState(120); // 2 minutes per turn
   const { payout, isPending: isPayoutPending } = usePayout();
 
   // Watch for block changes to refresh game state
@@ -31,6 +32,9 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
     abi: ESCROW_ABI,
     functionName: 'games',
     args: [gameId],
+    query: {
+      refetchInterval: 2000, // Refetch every 2 seconds
+    },
   });
 
   // Refetch game data when block changes
@@ -53,9 +57,20 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
 
   // Check if waiting for player 2
   const isWaitingForPlayer2 = !player2Address || player2Address === '0x0000000000000000000000000000000000000000';
+
+  // Aggressive polling while waiting for player 2 (every 1 second)
+  useEffect(() => {
+    if (isWaitingForPlayer2) {
+      const pollInterval = setInterval(() => {
+        refetch();
+      }, 1000); // Poll every second while waiting
+
+      return () => clearInterval(pollInterval);
+    }
+  }, [isWaitingForPlayer2, refetch]);
   
   // Use synced game moves hook
-  const { board, currentPlayer, makeMove, isSubmitting } = useGameMoves({
+  const { board, currentPlayer, makeMove, isSubmitting, lastMoveTimestamp, skipTurn } = useGameMoves({
     gameId,
     myAddress: address,
     mySymbol,
@@ -86,6 +101,41 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
 
     return () => clearInterval(timer);
   }, [gameStartTime]);
+
+  // Turn timer - 2 minutes per turn
+  useEffect(() => {
+    if (!gameStartTime || isWaitingForPlayer2 || winner || isDraw) {
+      setTurnTimeLeft(120);
+      return;
+    }
+
+    // Calculate time left for current turn
+    const turnStartTime = lastMoveTimestamp || Date.now();
+    const timeElapsed = Math.floor((Date.now() - turnStartTime) / 1000);
+    const timeLeft = Math.max(0, 120 - timeElapsed);
+    
+    setTurnTimeLeft(timeLeft);
+
+    // Update timer every second
+    const timer = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - turnStartTime) / 1000);
+      const remaining = Math.max(0, 120 - elapsed);
+      setTurnTimeLeft(remaining);
+
+      // Auto-skip turn if time runs out
+      if (remaining === 0 && !winner && !isDraw) {
+        console.log(`Turn timer expired for ${currentPlayer}`);
+        skipTurn().then(success => {
+          if (success) {
+            soundManager.playMove();
+            console.log('Turn automatically skipped due to timeout');
+          }
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [gameStartTime, isWaitingForPlayer2, lastMoveTimestamp, currentPlayer, winner, isDraw, skipTurn]);
 
   // Format time as MM:SS
   const formatTime = (seconds: number) => {
@@ -232,9 +282,17 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
             ) : isDraw ? (
               <p className="text-2xl font-bold text-carton-700">🤝 Draw!</p>
             ) : (
-              <p className="text-xl text-carton-700">
-                {isMyTurn ? '✨ Your Turn' : '⏳ Opponent Turn'}
-              </p>
+              <div className="space-y-2">
+                <p className="text-xl text-carton-700">
+                  {isMyTurn ? '✨ Your Turn' : '⏳ Opponent Turn'}
+                </p>
+                <div className={`text-lg font-bold ${turnTimeLeft <= 30 ? 'text-red-600 animate-pulse' : 'text-blue-600'}`}>
+                  ⏱️ {formatTime(turnTimeLeft)}
+                </div>
+                {turnTimeLeft <= 30 && (
+                  <p className="text-xs text-red-500">Hurry! Time running out!</p>
+                )}
+              </div>
             )}
           </div>
 

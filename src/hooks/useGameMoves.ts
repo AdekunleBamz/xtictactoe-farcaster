@@ -20,6 +20,7 @@ export function useGameMoves({ gameId, myAddress, mySymbol, enabled }: UseGameMo
   const [currentPlayer, setCurrentPlayer] = useState<Player>('X');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastMoveCount, setLastMoveCount] = useState(0);
+  const [lastMoveTimestamp, setLastMoveTimestamp] = useState<number>(0);
 
   const gameIdStr = gameId.toString();
 
@@ -36,15 +37,23 @@ export function useGameMoves({ gameId, myAddress, mySymbol, enabled }: UseGameMo
         
         // Only update if move count changed
         if (moves.length !== lastMoveCount) {
-          // Build board from moves
+          // Build board from moves (skip position -1 which indicates timeout)
           const newBoard: Board = Array(9).fill(null);
           moves.forEach(move => {
-            newBoard[move.position] = move.player;
+            if (move.position >= 0 && move.position <= 8) {
+              newBoard[move.position] = move.player;
+            }
+            // position -1 means turn was skipped due to timeout
           });
 
           setBoard(newBoard);
           setCurrentPlayer(moves.length % 2 === 0 ? 'X' : 'O');
           setLastMoveCount(moves.length);
+          
+          // Update last move timestamp
+          if (moves.length > 0) {
+            setLastMoveTimestamp(moves[moves.length - 1].timestamp);
+          }
         }
       }
     } catch (error) {
@@ -122,10 +131,37 @@ export function useGameMoves({ gameId, myAddress, mySymbol, enabled }: UseGameMo
     }
   }, [enabled, myAddress, mySymbol, board, currentPlayer, gameIdStr, lastMoveCount, fetchMoves, isSubmitting]);
 
+  // Skip turn due to timeout
+  const skipTurn = useCallback(async (): Promise<boolean> => {
+    if (!enabled) return false;
+
+    try {
+      const response = await fetch(`/api/game/${gameIdStr}/moves`, {
+        method: 'PATCH',
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Fetch latest state
+        setTimeout(fetchMoves, 200);
+        return true;
+      } else {
+        console.error('Skip turn rejected:', data.error);
+        return false;
+      }
+    } catch (error) {
+      console.error('Error skipping turn:', error);
+      return false;
+    }
+  }, [enabled, gameIdStr, fetchMoves]);
+  
   return {
     board,
     currentPlayer,
     makeMove,
     isSubmitting,
+    lastMoveTimestamp,
+    skipTurn,
   };
 }

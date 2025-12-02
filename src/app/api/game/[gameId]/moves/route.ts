@@ -86,6 +86,18 @@ export async function POST(
       );
     }
 
+    // Check turn timer (2 minutes = 120 seconds)
+    if (moves.length > 0) {
+      const lastMove = moves[moves.length - 1];
+      const timeSinceLastMove = Date.now() - lastMove.timestamp;
+      
+      // If last player took more than 2 minutes, they forfeit their turn
+      // This is just a warning - the frontend will handle the UI
+      if (timeSinceLastMove > 120000) {
+        console.log(`Warning: Previous player took ${Math.floor(timeSinceLastMove / 1000)}s for their turn`);
+      }
+    }
+
     // Add new move
     const newMove: GameMove = {
       position,
@@ -128,6 +140,59 @@ export async function DELETE(
     console.error('Error resetting moves:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to reset moves' },
+      { status: 500 }
+    );
+  }
+}
+
+// PATCH /api/game/[gameId]/moves - Skip turn due to timeout
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { gameId: string } }
+) {
+  try {
+    const gameId = params.gameId;
+    const moves = gameMovesStore.get(gameId) || [];
+
+    if (moves.length === 0) {
+      return NextResponse.json(
+        { success: false, error: 'No moves to skip' },
+        { status: 400 }
+      );
+    }
+
+    const lastMove = moves[moves.length - 1];
+    const timeSinceLastMove = Date.now() - lastMove.timestamp;
+
+    // Only allow skip if more than 2 minutes have passed
+    if (timeSinceLastMove < 120000) {
+      return NextResponse.json(
+        { success: false, error: 'Turn timer not expired yet' },
+        { status: 400 }
+      );
+    }
+
+    // Add a "skip" move with position -1 (invalid position to indicate skip)
+    const expectedPlayer = moves.length % 2 === 0 ? 'X' : 'O';
+    const skipMove: GameMove = {
+      position: -1,
+      player: expectedPlayer,
+      timestamp: Date.now(),
+      address: 'TIMEOUT_SKIP'
+    };
+
+    moves.push(skipMove);
+    gameMovesStore.set(gameId, moves);
+
+    return NextResponse.json({ 
+      success: true, 
+      message: 'Turn skipped due to timeout',
+      skippedPlayer: expectedPlayer
+    });
+  } catch (error) {
+    console.error('Error skipping turn:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to skip turn' },
       { status: 500 }
     );
   }
