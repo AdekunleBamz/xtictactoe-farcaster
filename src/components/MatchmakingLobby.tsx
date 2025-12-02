@@ -140,7 +140,7 @@ export default function MatchmakingLobby({ onBack, onGameStart }: MatchmakingLob
             </button>
             <h2 className="text-2xl font-bold text-carton-800">🎮 Matchmaking Lobby</h2>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-carton-700">Players: {openGames.length}</span>
+              <span className="text-sm text-carton-700">Open Games: {openGames.length}</span>
               <button
                 onClick={() => setRefreshTrigger(prev => prev + 1)}
                 className="bg-carton-200 hover:bg-carton-300 text-carton-800 p-2 rounded-lg transition-colors"
@@ -151,8 +151,17 @@ export default function MatchmakingLobby({ onBack, onGameStart }: MatchmakingLob
           </div>
 
           {!address ? (
-            <div className="text-center py-8">
-              <p className="text-carton-700 mb-4">Connect your wallet to play</p>
+            <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl p-12 text-center border-4 border-blue-400 shadow-xl">
+              <div className="text-6xl mb-4">👛</div>
+              <h3 className="text-2xl font-bold text-blue-900 mb-3">Wallet Not Connected</h3>
+              <p className="text-blue-700 mb-6 text-lg">Connect your wallet using the button in the top-right corner to start playing!</p>
+              <div className="bg-blue-50 rounded-lg p-4 text-sm text-blue-800">
+                <p>💡 You'll need:</p>
+                <ul className="list-disc list-inside mt-2 space-y-1">
+                  <li>A wallet connected to Base network</li>
+                  <li>At least 1 USDC to play PvP</li>
+                </ul>
+              </div>
             </div>
           ) : (
             <div className="space-y-6">
