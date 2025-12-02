@@ -108,14 +108,13 @@ export default function Leaderboard({ onBack }: LeaderboardProps) {
 
           <div className="space-y-3 max-h-[500px] overflow-y-auto">
             {entries.map((entry, index) => {
-              const isCurrentUser = entry.address === currentAddress;
               return (
                 <div
                   key={index}
                   className={`
                     rounded-lg p-4 flex items-center gap-4
                     bg-gradient-to-r ${getRankColor(entry.rank)}
-                    border-2 ${isCurrentUser ? 'border-carton-700 shadow-lg' : 'border-carton-400'}
+                    border-2 border-carton-400
                     transition-all hover:scale-102 hover:shadow-md
                   `}
                 >
