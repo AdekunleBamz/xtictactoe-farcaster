@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAccount, useWatchContractEvent, useReadContract } from 'wagmi';
+import { useAccount, useWatchContractEvent, useReadContract, useChainId, useSwitchChain } from 'wagmi';
 import { useApproveUSDC, useCreateGame, useJoinGame, useUSDCAllowance, useUSDCBalance } from '@/hooks/useContract';
 import { formatUnits, parseUnits } from 'viem';
 import { soundManager, vibrateClick } from '@/utils/sound';
@@ -22,6 +22,9 @@ interface OpenGame {
 
 export default function MatchmakingLobby({ onBack, onGameStart }: MatchmakingLobbyProps) {
   const { address } = useAccount();
+  const chainId = useChainId();
+  const { switchChain } = useSwitchChain();
+  const isWrongNetwork = address && chainId !== 8453; // Base chainId
   const [openGames, setOpenGames] = useState<OpenGame[]>([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const { balance } = useUSDCBalance();
@@ -150,7 +153,23 @@ export default function MatchmakingLobby({ onBack, onGameStart }: MatchmakingLob
             </div>
           </div>
 
-          {!address ? (
+          {isWrongNetwork ? (
+            <div className="bg-gradient-to-br from-red-100 to-red-200 rounded-xl p-12 text-center border-4 border-red-400 shadow-xl">
+              <div className="text-6xl mb-4">⚠️</div>
+              <h3 className="text-2xl font-bold text-red-900 mb-3">Wrong Network Detected</h3>
+              <p className="text-red-700 mb-6 text-lg">You're connected to the wrong network. Please switch to Base.</p>
+              <button
+                onClick={() => switchChain({ chainId: 8453 })}
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-lg"
+              >
+                Switch to Base Network
+              </button>
+              <div className="bg-red-50 rounded-lg p-4 text-sm text-red-800 mt-6">
+                <p>💡 Current Network: {chainId === 1 ? 'Ethereum' : chainId === 137 ? 'Polygon' : chainId === 42161 ? 'Arbitrum' : `Chain ${chainId}`}</p>
+                <p className="mt-1">✅ Required: Base (Chain 8453)</p>
+              </div>
+            </div>
+          ) : !address ? (
             <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl p-12 text-center border-4 border-blue-400 shadow-xl">
               <div className="text-6xl mb-4">👛</div>
               <h3 className="text-2xl font-bold text-blue-900 mb-3">Wallet Not Connected</h3>
