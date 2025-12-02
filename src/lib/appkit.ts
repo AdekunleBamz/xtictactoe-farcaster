@@ -5,7 +5,7 @@ import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import { base } from 'viem/chains';
 import { cookieStorage, createStorage } from 'wagmi';
 
-const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '';
+const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '7f100a30681d28871c0aaa5d1f6d1121';
 
 const metadata = {
   name: 'xTicTacToe',
