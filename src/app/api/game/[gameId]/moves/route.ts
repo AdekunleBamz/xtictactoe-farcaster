@@ -197,12 +197,9 @@ export async function PATCH(
     const lastMove = moves[moves.length - 1];
     const timeSinceLastMove = Date.now() - lastMove.timestamp;
 
-    // Only allow skip if more than 2 minutes have passed
+    // Log warning if being called before 2 minutes (but still allow it)
     if (timeSinceLastMove < 120000) {
-      return NextResponse.json(
-        { success: false, error: 'Turn timer not expired yet' },
-        { status: 400 }
-      );
+      console.log(`Warning: Skip called after ${Math.floor(timeSinceLastMove / 1000)}s (less than 120s)`);
     }
 
     // Add a "skip" move with position -1 (invalid position to indicate skip)

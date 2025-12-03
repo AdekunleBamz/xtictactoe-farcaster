@@ -21,6 +21,7 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
   const [gameStartTime, setGameStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [turnTimeLeft, setTurnTimeLeft] = useState(120); // 2 minutes per turn
+  const [hasSkippedTurn, setHasSkippedTurn] = useState(false); // Prevent multiple skips
   const { payout, isPending: isPayoutPending } = usePayout();
 
   // Watch for block changes to refresh game state
@@ -106,6 +107,7 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
   useEffect(() => {
     if (isWaitingForPlayer2 || winner || isDraw) {
       setTurnTimeLeft(120);
+      setHasSkippedTurn(false);
       return;
     }
 
@@ -116,6 +118,9 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
     const timeLeft = Math.max(0, 120 - timeElapsed);
     
     setTurnTimeLeft(timeLeft);
+    
+    // Reset skip flag when turn changes (new move made)
+    setHasSkippedTurn(false);
 
     // Update timer every second
     const timer = setInterval(() => {
@@ -123,20 +128,24 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
       const remaining = Math.max(0, 120 - elapsed);
       setTurnTimeLeft(remaining);
 
-      // Auto-skip turn if time runs out
-      if (remaining === 0 && !winner && !isDraw) {
+      // Auto-skip turn if time runs out (only once per turn)
+      if (remaining === 0 && !winner && !isDraw && !hasSkippedTurn) {
+        setHasSkippedTurn(true); // Prevent multiple skip calls
         console.log(`Turn timer expired for ${currentPlayer}`);
         skipTurn().then(success => {
           if (success) {
             soundManager.playMove();
             console.log('Turn automatically skipped due to timeout');
+          } else {
+            // Reset flag if skip failed
+            setHasSkippedTurn(false);
           }
         });
       }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [gameStartTime, isWaitingForPlayer2, lastMoveTimestamp, currentPlayer, winner, isDraw, skipTurn]);
+  }, [gameStartTime, isWaitingForPlayer2, lastMoveTimestamp, currentPlayer, winner, isDraw, skipTurn, hasSkippedTurn]);
 
   // Format time as MM:SS
   const formatTime = (seconds: number) => {

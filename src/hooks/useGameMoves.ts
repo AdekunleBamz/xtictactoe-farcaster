@@ -165,6 +165,9 @@ export function useGameMoves({ gameId, myAddress, mySymbol, enabled }: UseGameMo
         setCurrentPlayer(mySymbol === 'X' ? 'O' : 'X');
         setLastMoveCount(lastMoveCount + 1);
         
+        // Update timestamp immediately to reset turn timer
+        setLastMoveTimestamp(Date.now());
+        
         // Fetch latest state to ensure sync
         setTimeout(fetchMoves, 200);
         
