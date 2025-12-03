@@ -85,8 +85,12 @@ export function useGameMoves({ gameId, myAddress, mySymbol, enabled }: UseGameMo
           console.error('Error caching moves:', error);
         }
         
-        // Only update if move count changed
-        if (moves.length !== lastMoveCount) {
+        // Update state if move count changed OR timestamp is different
+        const hasNewMoves = moves.length !== lastMoveCount;
+        const latestTimestamp = moves.length > 0 ? moves[moves.length - 1].timestamp : 0;
+        const hasNewTimestamp = latestTimestamp !== lastMoveTimestamp && latestTimestamp > 0;
+        
+        if (hasNewMoves || hasNewTimestamp) {
           // Build board from moves (skip position -1 which indicates timeout)
           const newBoard: Board = Array(9).fill(null);
           moves.forEach(move => {
@@ -100,7 +104,7 @@ export function useGameMoves({ gameId, myAddress, mySymbol, enabled }: UseGameMo
           setCurrentPlayer(moves.length % 2 === 0 ? 'X' : 'O');
           setLastMoveCount(moves.length);
           
-          // Update last move timestamp
+          // Always update last move timestamp if available
           if (moves.length > 0) {
             setLastMoveTimestamp(moves[moves.length - 1].timestamp);
           }

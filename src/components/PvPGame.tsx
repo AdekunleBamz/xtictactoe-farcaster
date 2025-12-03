@@ -121,6 +121,10 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
     
     // Reset skip flag when turn changes (new move made)
     setHasSkippedTurn(false);
+    
+    console.log(`Turn timer reset: ${timeLeft}s remaining, currentPlayer: ${currentPlayer}, timestamp: ${new Date(turnStartTime).toISOString()}`);
+
+    let skipAttempted = false; // Local flag to prevent multiple skip calls in this timer instance
 
     // Update timer every second
     const timer = setInterval(() => {
@@ -128,24 +132,27 @@ export default function PvPGame({ gameId, onBack }: PvPGameProps) {
       const remaining = Math.max(0, 120 - elapsed);
       setTurnTimeLeft(remaining);
 
-      // Auto-skip turn if time runs out (only once per turn)
-      if (remaining === 0 && !winner && !isDraw && !hasSkippedTurn) {
-        setHasSkippedTurn(true); // Prevent multiple skip calls
-        console.log(`Turn timer expired for ${currentPlayer}`);
+      // Auto-skip turn if time runs out (only once)
+      if (remaining === 0 && !winner && !isDraw && !skipAttempted) {
+        skipAttempted = true; // Prevent multiple calls
+        console.log(`Turn timer expired for ${currentPlayer}, attempting skip...`);
         skipTurn().then(success => {
           if (success) {
             soundManager.playMove();
             console.log('Turn automatically skipped due to timeout');
-          } else {
-            // Reset flag if skip failed
-            setHasSkippedTurn(false);
           }
+        }).catch(err => {
+          console.error('Skip turn failed:', err);
+          skipAttempted = false; // Allow retry on error
         });
       }
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, [gameStartTime, isWaitingForPlayer2, lastMoveTimestamp, currentPlayer, winner, isDraw, skipTurn, hasSkippedTurn]);
+    return () => {
+      clearInterval(timer);
+      console.log('Turn timer cleared');
+    };
+  }, [gameStartTime, isWaitingForPlayer2, lastMoveTimestamp, currentPlayer, winner, isDraw, skipTurn]);
 
   // Format time as MM:SS
   const formatTime = (seconds: number) => {

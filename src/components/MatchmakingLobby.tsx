@@ -58,23 +58,30 @@ export default function MatchmakingLobby({ onBack, onGameStart }: MatchmakingLob
     address: CONTRACT_ADDRESS as `0x${string}`,
     abi: ESCROW_ABI,
     eventName: 'GameJoined',
-    onLogs: (logs) => {
+    onLogs: async (logs) => {
       setRefreshTrigger(prev => prev + 1);
       
       // Check if any of these joined games belong to current user as player1
-      logs.forEach((log: any) => {
-        if (log.args?.gameId && log.args?.player1 && address) {
-          const player1 = log.args.player1.toLowerCase();
-          const currentAddress = address.toLowerCase();
-          
-          // If current user is player1, navigate to game
-          if (player1 === currentAddress) {
-            soundManager.playMatchFound();
-            vibrateClick();
-            setTimeout(() => onGameStart(log.args.gameId), 1500);
+      for (const log of logs) {
+        if (log.args?.gameId && address) {
+          try {
+            // Fetch game data to check if current user is player1
+            const response = await fetch(`/api/contract/game/${log.args.gameId}`);
+            if (response.ok) {
+              const gameData = await response.json();
+              if (gameData.player1?.toLowerCase() === address.toLowerCase()) {
+                // Current user is player1, navigate to game
+                soundManager.playMatchFound();
+                vibrateClick();
+                setTimeout(() => onGameStart(log.args.gameId as bigint), 1500);
+                break; // Only navigate once
+              }
+            }
+          } catch (error) {
+            console.error('Error checking game:', error);
           }
         }
-      });
+      }
     },
   });
 
