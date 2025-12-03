@@ -284,8 +284,9 @@ export default function MatchmakingLobby({ onBack, onGameStart }: MatchmakingLob
 
               {/* Open Games List */}
               <div>
-                <h3 className="text-lg font-bold text-carton-800 mb-3">
-                  Open Games Waiting for Opponents
+                <h3 className="text-lg font-bold text-carton-800 mb-3 flex justify-between items-center">
+                  <span>Open Games Waiting for Opponents</span>
+                  <span className="text-sm font-normal text-carton-600">({openGames.length} available)</span>
                 </h3>
                 
                 {openGames.length === 0 ? (
@@ -294,33 +295,40 @@ export default function MatchmakingLobby({ onBack, onGameStart }: MatchmakingLob
                     <p className="text-sm text-carton-600">Be the first to create one!</p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
+                  <div className="max-h-96 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
                     {openGames.map((game) => (
                       <div
                         key={game.gameId.toString()}
-                        className="bg-white rounded-lg p-4 border-2 border-carton-300 flex justify-between items-center hover:border-carton-500 transition-colors"
+                        className="bg-white rounded-lg p-3 border-2 border-carton-300 flex justify-between items-center hover:border-carton-500 hover:shadow-md transition-all"
                       >
-                        <div>
-                          <div className="font-bold text-carton-900">Game #{game.gameId.toString()}</div>
-                          <div className="text-sm text-carton-600">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-carton-900">Game #{game.gameId.toString()}</span>
+                            {game.player1.toLowerCase() === address?.toLowerCase() && (
+                              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-semibold">
+                                Your Game
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-xs text-carton-600 mt-1">
                             Player: {game.player1.slice(0, 6)}...{game.player1.slice(-4)}
                           </div>
-                          <div className="text-xs text-green-600 mt-1">
-                            💰 Prize Pool: ${formatUnits(game.pot, 6)} USDC
+                          <div className="text-xs text-green-600 mt-1 font-semibold">
+                            💰 Win: $1.70 USDC
                           </div>
                         </div>
                         
                         {game.player1.toLowerCase() === address?.toLowerCase() ? (
-                          <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg text-sm font-bold">
-                            ⏳ Your Game (Waiting...)
+                          <div className="bg-blue-50 text-blue-600 px-3 py-2 rounded-lg text-xs font-bold border border-blue-200">
+                            ⏳ Waiting...
                           </div>
                         ) : (
                           <button
                             onClick={() => handleJoinGame(game.gameId)}
                             disabled={isJoining || !hasApproval || !hasEnoughBalance}
-                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm whitespace-nowrap"
                           >
-                            {isJoining ? '⏳ Joining...' : '⚔️ Join Game ($1)'}
+                            {isJoining ? '⏳' : '⚔️ Join'}
                           </button>
                         )}
                       </div>
