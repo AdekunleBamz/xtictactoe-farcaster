@@ -75,22 +75,22 @@ export default function GameBoard({ mode, difficulty, onBack, onWin }: GameBoard
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-carton-100 via-carton-200 to-carton-300">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-leaf-100 via-leaf-200 to-leaf-300">
       <div className="w-full max-w-md">
-        <div className="bg-gradient-to-br from-carton-50 to-carton-100 rounded-2xl shadow-2xl p-8 border-4 border-carton-400">
+        <div className="bg-gradient-to-br from-leaf-50 to-leaf-100 rounded-2xl shadow-2xl p-8 border-4 border-leaf-400">
           <div className="flex justify-between items-center mb-6">
             <button
               onClick={onBack}
-              className="bg-carton-300 hover:bg-carton-400 text-carton-800 font-bold py-2 px-4 rounded-lg transition-colors"
+              className="bg-leaf-300 hover:bg-leaf-400 text-leaf-800 font-bold py-2 px-4 rounded-lg transition-colors"
             >
               ← Back
             </button>
-            <h2 className="text-2xl font-bold text-carton-800">
+            <h2 className="text-2xl font-bold text-leaf-800">
               {mode === 'ai' ? '🤖 AI Mode' : '⚔️ PvP Mode'}
             </h2>
             <button
               onClick={handleReset}
-              className="bg-carton-300 hover:bg-carton-400 text-carton-800 font-bold py-2 px-4 rounded-lg transition-colors"
+              className="bg-leaf-300 hover:bg-leaf-400 text-leaf-800 font-bold py-2 px-4 rounded-lg transition-colors"
             >
               🔄
             </button>
@@ -98,13 +98,13 @@ export default function GameBoard({ mode, difficulty, onBack, onWin }: GameBoard
 
           <div className="mb-6 text-center">
             {winner ? (
-              <p className="text-2xl font-bold text-carton-800 animate-bounce-in">
+              <p className="text-2xl font-bold text-leaf-800 animate-bounce-in">
                 {winner === 'X' ? '🎉 You Win!' : '😔 You Lose!'}
               </p>
             ) : isDraw ? (
-              <p className="text-2xl font-bold text-carton-700">🤝 Draw!</p>
+              <p className="text-2xl font-bold text-leaf-700">🤝 Draw!</p>
             ) : (
-              <p className="text-xl text-carton-700">
+              <p className="text-xl text-leaf-700">
                 {currentPlayer === 'X' ? 'Your Turn' : mode === 'ai' ? 'AI Thinking...' : 'Opponent Turn'}
               </p>
             )}
@@ -117,18 +117,18 @@ export default function GameBoard({ mode, difficulty, onBack, onWin }: GameBoard
                 onClick={() => handleMove(index)}
                 disabled={!!cell || !!winner || isDraw || (mode === 'ai' && currentPlayer === 'O')}
                 className={`
-                  aspect-square bg-gradient-to-br from-carton-200 to-carton-300 
+                  aspect-square bg-gradient-to-br from-leaf-200 to-leaf-300
                   rounded-xl shadow-lg hover:shadow-xl
                   flex items-center justify-center text-5xl font-bold
                   transition-all duration-200 transform hover:scale-105
-                  border-2 border-carton-400
+                  border-2 border-leaf-400
                   ${cell ? 'cursor-default' : 'cursor-pointer'}
-                  ${isWinningCell(index) ? 'animate-cell-win bg-gradient-to-br from-carton-400 to-carton-500' : ''}
-                  ${!cell && !winner && !isDraw ? 'hover:bg-gradient-to-br hover:from-carton-300 hover:to-carton-400' : ''}
+                  ${isWinningCell(index) ? 'animate-cell-win bg-gradient-to-br from-leaf-400 to-leaf-500' : ''}
+                  ${!cell && !winner && !isDraw ? 'hover:bg-gradient-to-br hover:from-leaf-300 hover:to-leaf-400' : ''}
                 `}
               >
                 {cell && (
-                  <span className={`animate-bounce-in ${cell === 'X' ? 'text-carton-800' : 'text-carton-700'}`}>
+                  <span className={`animate-bounce-in ${cell === 'X' ? 'text-leaf-800' : 'text-leaf-700'}`}>
                     {cell}
                   </span>
                 )}
@@ -137,8 +137,8 @@ export default function GameBoard({ mode, difficulty, onBack, onWin }: GameBoard
           </div>
 
           {mode === 'ai' && (
-            <div className="text-center text-sm text-carton-600">
-              Difficulty: <span className="font-bold text-carton-800 capitalize">{difficulty}</span>
+            <div className="text-center text-sm text-leaf-600">
+              Difficulty: <span className="font-bold text-leaf-800 capitalize">{difficulty}</span>
             </div>
           )}
         </div>
