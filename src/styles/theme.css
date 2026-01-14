@@ -1,0 +1,46 @@
+/* Leaf Green Theme Variables */
+:root {
+  /* Primary Leaf Green Palette */
+  --leaf-50: #f0fdf4;
+  --leaf-100: #dcfce7;
+  --leaf-200: #bbf7d0;
+  --leaf-300: #86efac;
+  --leaf-400: #4ade80;
+  --leaf-500: #22c55e;
+  --leaf-600: #16a34a;
+  --leaf-700: #15803d;
+  --leaf-800: #166534;
+  --leaf-900: #14532d;
+  
+  /* Forest Accent Colors */
+  --forest-light: #bbf7d0;
+  --forest-medium: #22c55e;
+  --forest-dark: #14532d;
+  
+  /* Theme Semantics */
+  --theme-primary: var(--leaf-500);
+  --theme-primary-hover: var(--leaf-600);
+  --theme-secondary: var(--leaf-400);
+  --theme-background: var(--leaf-100);
+  --theme-surface: var(--leaf-50);
+  --theme-text: var(--leaf-800);
+  --theme-text-muted: var(--leaf-600);
+  --theme-border: var(--leaf-400);
+  --theme-accent: var(--forest-medium);
+  
+  /* Shadows with green tint */
+  --shadow-sm: 0 1px 2px rgba(20, 83, 45, 0.1);
+  --shadow-md: 0 4px 6px rgba(20, 83, 45, 0.15);
+  --shadow-lg: 0 10px 15px rgba(20, 83, 45, 0.2);
+  --shadow-xl: 0 20px 25px rgba(20, 83, 45, 0.25);
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --theme-background: var(--leaf-900);
+    --theme-surface: var(--leaf-800);
+    --theme-text: var(--leaf-100);
+    --theme-text-muted: var(--leaf-300);
+  }
+}
