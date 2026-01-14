@@ -8,6 +8,23 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        leaf: {
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e',
+          600: '#16a34a',
+          700: '#15803d',
+          800: '#166534',
+          900: '#14532d',
+        },
+        forest: {
+          light: '#4ade80',
+          mid: '#22c55e',
+          dark: '#15803d',
+        },
         metal: {
           50: '#fafafa',
           100: '#e0e0e0',
@@ -46,10 +63,10 @@ module.exports = {
       keyframes: {
         'glow-pulse': {
           '0%, 100%': { 
-            boxShadow: '0 0 10px rgba(150, 150, 150, 0.3), 0 0 20px rgba(150, 150, 150, 0.2)',
+            boxShadow: '0 0 10px rgba(34, 197, 94, 0.3), 0 0 20px rgba(34, 197, 94, 0.2)',
           },
           '50%': { 
-            boxShadow: '0 0 25px rgba(180, 180, 180, 0.5), 0 0 40px rgba(150, 150, 150, 0.3)',
+            boxShadow: '0 0 25px rgba(74, 222, 128, 0.5), 0 0 40px rgba(34, 197, 94, 0.3)',
           },
         },
         'metalCellWin': {
@@ -59,11 +76,11 @@ module.exports = {
           },
           '50%': { 
             transform: 'scale(1.2) rotate(-2deg)',
-            boxShadow: '0 0 50px rgba(220,220,220,0.6), 0 0 80px rgba(180,180,180,0.4)',
+            boxShadow: '0 0 50px rgba(74,222,128,0.6), 0 0 80px rgba(34,197,94,0.4)',
           },
           '100%': { 
             transform: 'scale(1.05)',
-            boxShadow: '0 0 25px rgba(180,180,180,0.4), 0 0 50px rgba(150,150,150,0.2)',
+            boxShadow: '0 0 25px rgba(74,222,128,0.4), 0 0 50px rgba(34,197,94,0.2)',
           },
         },
         'metalPlace': {
@@ -95,10 +112,10 @@ module.exports = {
         },
         'metallicPulse': {
           '0%, 100%': {
-            boxShadow: '0 0 20px rgba(150,150,150,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+            boxShadow: '0 0 20px rgba(34,197,94,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
           },
           '50%': {
-            boxShadow: '0 0 40px rgba(180,180,180,0.3), 0 0 60px rgba(150,150,150,0.15), inset 0 1px 0 rgba(255,255,255,0.2)',
+            boxShadow: '0 0 40px rgba(74,222,128,0.3), 0 0 60px rgba(34,197,94,0.15), inset 0 1px 0 rgba(255,255,255,0.2)',
           },
         },
         'markerPulse': {
@@ -113,10 +130,10 @@ module.exports = {
         },
         'victoryGlow': {
           '0%, 100%': {
-            filter: 'drop-shadow(0 0 10px rgba(255,215,0,0.5)) brightness(1)',
+            filter: 'drop-shadow(0 0 10px rgba(74,222,128,0.5)) brightness(1)',
           },
           '50%': {
-            filter: 'drop-shadow(0 0 30px rgba(255,215,0,0.8)) brightness(1.2)',
+            filter: 'drop-shadow(0 0 30px rgba(74,222,128,0.8)) brightness(1.2)',
           },
         },
         'textShimmer': {
@@ -125,20 +142,20 @@ module.exports = {
         },
         'indicatorPulse': {
           '0%, 100%': {
-            boxShadow: '0 0 8px #7cb342, 0 0 16px rgba(124,179,66,0.4)',
+            boxShadow: '0 0 8px #22c55e, 0 0 16px rgba(34,197,94,0.4)',
           },
           '50%': {
-            boxShadow: '0 0 15px #7cb342, 0 0 30px rgba(124,179,66,0.6)',
+            boxShadow: '0 0 15px #22c55e, 0 0 30px rgba(34,197,94,0.6)',
           },
         },
         'turnPulse': {
           '0%, 100%': {
             transform: 'scale(1)',
-            boxShadow: '0 0 10px rgba(150,150,150,0.3)',
+            boxShadow: '0 0 10px rgba(34,197,94,0.3)',
           },
           '50%': {
             transform: 'scale(1.05)',
-            boxShadow: '0 0 25px rgba(180,180,180,0.5)',
+            boxShadow: '0 0 25px rgba(74,222,128,0.5)',
           },
         },
         'timerUrgent': {
@@ -159,14 +176,14 @@ module.exports = {
         },
       },
       backgroundImage: {
-        'metal-gradient': 'linear-gradient(180deg, #5a5a5a 0%, #3a3a3a 40%, #2a2a2a 60%, #3a3a3a 100%)',
-        'chrome-gradient': 'linear-gradient(180deg, #ffffff 0%, #c0c0c0 25%, #808080 50%, #a0a0a0 75%, #ffffff 100%)',
-        'card-metal': 'linear-gradient(145deg, #3a3a3a 0%, #2a2a2a 50%, #1f1f1f 100%)',
+        'leaf-gradient': 'linear-gradient(180deg, #22c55e 0%, #16a34a 40%, #15803d 60%, #16a34a 100%)',
+        'forest-gradient': 'linear-gradient(180deg, #4ade80 0%, #22c55e 25%, #15803d 50%, #16a34a 75%, #4ade80 100%)',
+        'card-leaf': 'linear-gradient(145deg, #166534 0%, #15803d 50%, #14532d 100%)',
       },
       boxShadow: {
-        'metal': '0 10px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)',
-        'metal-hover': '0 6px 25px rgba(0,0,0,0.5), 0 0 20px rgba(150,150,150,0.15), inset 0 1px 0 rgba(255,255,255,0.3)',
-        'metal-inset': 'inset 0 2px 5px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.2)',
+        'leaf': '0 10px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)',
+        'leaf-hover': '0 6px 25px rgba(0,0,0,0.5), 0 0 20px rgba(34,197,94,0.15), inset 0 1px 0 rgba(255,255,255,0.3)',
+        'leaf-inset': 'inset 0 2px 5px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.2)',
       },
     },
   },
