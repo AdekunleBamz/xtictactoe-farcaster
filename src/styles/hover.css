@@ -1,0 +1,60 @@
+/* Leaf Green Hover Effect Styles */
+
+/* Hover Background */
+.hover-bg-leaf {
+  @apply hover:bg-leaf-100 transition-colors;
+}
+
+/* Hover Scale */
+.hover-scale-leaf {
+  @apply hover:scale-105 transition-transform;
+}
+
+/* Hover Lift */
+.hover-lift-leaf {
+  @apply hover:-translate-y-1 hover:shadow-lg transition-all;
+}
+
+/* Hover Glow */
+.hover-glow-leaf {
+  @apply transition-shadow;
+}
+
+.hover-glow-leaf:hover {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+/* Hover Border */
+.hover-border-leaf {
+  @apply hover:border-leaf-500 transition-colors;
+}
+
+/* Hover Text */
+.hover-text-leaf {
+  @apply hover:text-leaf-600 transition-colors;
+}
+
+/* Hover Underline */
+.hover-underline-leaf {
+  @apply relative;
+}
+
+.hover-underline-leaf::after {
+  @apply absolute bottom-0 left-0 w-0 h-0.5 
+         bg-leaf-500 transition-all duration-300;
+  content: '';
+}
+
+.hover-underline-leaf:hover::after {
+  @apply w-full;
+}
+
+/* Hover Brighten */
+.hover-brighten-leaf {
+  @apply hover:brightness-110 transition-all;
+}
+
+/* Hover Rotate */
+.hover-rotate-leaf {
+  @apply hover:rotate-3 transition-transform;
+}
