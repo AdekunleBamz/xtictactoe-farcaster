@@ -1,0 +1,53 @@
+/* Leaf Green Badge Styles */
+
+/* Primary Badge */
+.badge-leaf {
+  @apply inline-flex items-center px-3 py-1
+         bg-leaf-200 text-leaf-700
+         text-sm font-medium rounded-full;
+}
+
+/* Success Badge */
+.badge-leaf-success {
+  @apply inline-flex items-center px-3 py-1
+         bg-leaf-500 text-white
+         text-sm font-semibold rounded-full;
+}
+
+/* Winner Badge */
+.badge-leaf-winner {
+  @apply inline-flex items-center px-4 py-2
+         bg-gradient-to-r from-leaf-400 to-leaf-500
+         text-white text-sm font-bold rounded-full
+         shadow-lg animate-glow-pulse;
+}
+
+/* Rank Badge */
+.badge-leaf-rank {
+  @apply inline-flex items-center justify-center
+         w-8 h-8 bg-leaf-600 text-white
+         text-sm font-bold rounded-full shadow;
+}
+
+/* Status Badge - Online */
+.badge-leaf-online {
+  @apply inline-flex items-center px-2 py-1
+         bg-leaf-400 text-white
+         text-xs font-medium rounded-full;
+}
+
+/* Status Badge - Waiting */
+.badge-leaf-waiting {
+  @apply inline-flex items-center px-2 py-1
+         bg-leaf-300 text-leaf-800
+         text-xs font-medium rounded-full
+         animate-pulse;
+}
+
+/* Count Badge */
+.badge-leaf-count {
+  @apply inline-flex items-center justify-center
+         min-w-[20px] h-5 px-1.5
+         bg-leaf-600 text-white
+         text-xs font-bold rounded-full;
+}
