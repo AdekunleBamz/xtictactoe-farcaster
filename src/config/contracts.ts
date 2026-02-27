@@ -222,6 +222,13 @@ export function getContractVersion(): string {
   return "1.0.0";
 }
 
+/**
+ * Get entry fee in USDC
+ */
+export function getEntryFee(): bigint {
+  return BigInt(1000000); // 1 USDC
+}
+
 export const USDC_ABI = [
   {
     inputs: [
