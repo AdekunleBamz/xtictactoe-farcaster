@@ -215,6 +215,13 @@ export const ESCROW_ABI = [
   },
 ] as const;
 
+/**
+ * Get contract version (placeholder)
+ */
+export function getContractVersion(): string {
+  return "1.0.0";
+}
+
 export const USDC_ABI = [
   {
     inputs: [
