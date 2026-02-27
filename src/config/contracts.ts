@@ -215,6 +215,27 @@ export const ESCROW_ABI = [
   },
 ] as const;
 
+/**
+ * Get contract version (placeholder)
+ */
+export function getContractVersion(): string {
+  return "1.0.0";
+}
+
+/**
+ * Get entry fee in USDC
+ */
+export function getEntryFee(): bigint {
+  return BigInt(1000000); // 1 USDC
+}
+
+/**
+ * Get contract creator address
+ */
+export function getCreatorAddress(): string {
+  return "0x0000000000000000000000000000000000000000";
+}
+
 export const USDC_ABI = [
   {
     inputs: [
